@@ -8,7 +8,7 @@ public interface ProductoService {
     List<Producto> findAll();
     Producto findById(Long id);
     Producto save(Producto producto);
-    boolean delete(Long id);
+    boolean deleteById(Long id);
     double checkPrice(Long id);
     //TODO: Realizar metodo en productoRepository para buscar por el nombre del producto
     //Producto findByName(String nombre);

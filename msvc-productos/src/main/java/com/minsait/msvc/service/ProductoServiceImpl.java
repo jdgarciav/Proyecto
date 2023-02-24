@@ -40,7 +40,7 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     @Transactional
-    public boolean delete(Long id) {
+    public boolean deleteById(Long id) {
         Optional<Producto> productoOptional = productoRepository.findById(id);
         if (productoOptional.isPresent()){
             productoRepository.deleteById(id);
