@@ -1,11 +1,15 @@
 package com.minsait.msvc.models.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "productos")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Producto {

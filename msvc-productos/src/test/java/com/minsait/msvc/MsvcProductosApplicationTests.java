@@ -9,5 +9,7 @@ class MsvcProductosApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+	@Test
+	public void main() {   MsvcProductosApplication.main(new String[] {});}
 
 }

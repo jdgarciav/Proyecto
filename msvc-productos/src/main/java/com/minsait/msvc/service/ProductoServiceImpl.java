@@ -29,7 +29,7 @@ public class ProductoServiceImpl implements ProductoService{
     @Override
     @Transactional(readOnly = true)
     public double checkPrice(Long id) {
-        return productoRepository.findById(id).orElseThrow().getPrecio();
+        return productoRepository.findById(id).get().getPrecio();
     }
 
     @Override

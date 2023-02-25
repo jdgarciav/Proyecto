@@ -38,8 +38,8 @@ public class ProductoController {
     @GetMapping("/listar/{id}/precio")
     public ResponseEntity<?> ckeckPrice(@PathVariable Long id){
         try {
-            Producto producto = productoService.findById(id);
-            return ResponseEntity.ok(producto.getPrecio());
+            Double precio = productoService.checkPrice(id);
+            return ResponseEntity.ok(precio);
         }catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
