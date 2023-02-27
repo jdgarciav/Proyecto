@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/v1/productos")
+@RequestMapping("/api/v1/tiendas")
 @Slf4j
 public class TiendaController {
     @Autowired

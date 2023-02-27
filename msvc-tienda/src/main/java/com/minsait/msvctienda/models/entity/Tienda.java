@@ -20,10 +20,8 @@ public class Tienda {
     @Column(unique = true)
     private String nombre;
 
-    @Column(unique = true)
     private String ciudad;
 
-    @Column(unique = true)
     private String codigoPostal;
 
 

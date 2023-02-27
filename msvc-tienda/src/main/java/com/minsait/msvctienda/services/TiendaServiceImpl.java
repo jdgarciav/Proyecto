@@ -1,7 +1,5 @@
 package com.minsait.msvctienda.services;
 
-import com.minsait.msvc.models.entity.Producto;
-import com.minsait.msvc.repositories.ProductoRepository;
 import com.minsait.msvctienda.models.entity.Tienda;
 import com.minsait.msvctienda.repositories.TiendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
