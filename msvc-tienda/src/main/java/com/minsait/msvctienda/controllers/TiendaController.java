@@ -40,7 +40,7 @@ public class TiendaController {
         try {
             Tienda tienda = tiendaService.findById(id);
             return ResponseEntity.ok("Nombre de la tienda: " + tienda.getNombre()
-                    + "\nDireccion: " + tienda.getCiudad() + " " + tienda.getCodigoPostal() );
+                    + "\nDireccion: " + tienda.getCiudad() + " " + tienda.getDelegacion() + " " + tienda.getCodigoPostal() );
         }catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
@@ -65,6 +65,7 @@ public class TiendaController {
             Tienda tienda= tiendaService.findById(id);
             tienda.setNombre(tiendaConCambios.getNombre());
             tienda.setCiudad(tiendaConCambios.getCiudad());
+            tienda.setDelegacion(tiendaConCambios.getDelegacion());
             tienda.setCodigoPostal(tiendaConCambios.getCodigoPostal());
             return new ResponseEntity<>(tiendaService.save(tienda),HttpStatus.CREATED);
         }catch (NoSuchElementException e){

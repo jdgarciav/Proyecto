@@ -22,6 +22,8 @@ public class Tienda {
 
     private String ciudad;
 
+    private String delegacion;
+
     private String codigoPostal;
 
 
