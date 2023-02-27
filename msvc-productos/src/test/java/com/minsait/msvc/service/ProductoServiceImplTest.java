@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +27,8 @@ class ProductoServiceImplTest {
 
     @Test
     void findAll() {
-        Producto producto1 = new Producto(null, "Smart", 9000);
-        Producto producto2 = new Producto(null, "Bicicleta" ,4000);
+        Producto producto1 = new Producto(null, "Smart", new BigDecimal(9000));
+        Producto producto2 = new Producto(null, "Bicicleta" ,new BigDecimal(4000));
         when(productoRepository.findAll()).thenReturn(List.of(producto1,producto2));
         List<Producto> productos = productoService.findAll();
         assertEquals("Smart", productos.get(0).getNombre());
@@ -36,27 +37,27 @@ class ProductoServiceImplTest {
     @Test
     void findById() {
         Long id = 1L;
-        Producto producto = new Producto(id, "Smart", 9000);
+        Producto producto = new Producto(id, "Smart", new BigDecimal(9000));
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
         Producto productoComparar = productoService.findById(id);
         assertEquals(id, productoComparar.getId());
         assertEquals("Smart", productoComparar.getNombre());
-        assertEquals(9000, productoComparar.getPrecio());
+        assertEquals(9000, productoComparar.getPrecio().intValue());
     }
 
     @Test
     void checkPrice() {
-        double precioEsperado = 9000;
+        BigDecimal precioEsperado = new BigDecimal(9000);
         Producto producto = new Producto(1L, "Smart", precioEsperado);
         when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));
-        double precio = productoService.checkPrice(1L);
+        BigDecimal precio = productoService.checkPrice(1L);
         assertEquals(precioEsperado,precio);
     }
 
     @Test
     void save() {
         String nombre = "Smart";
-        double precio = 9000;
+        BigDecimal precio = new BigDecimal(9000);
         Producto producto = new Producto(null, nombre, precio);
         when(productoRepository.save(any(Producto.class))).then(
                 invocation -> {
@@ -74,7 +75,7 @@ class ProductoServiceImplTest {
     @Test
     void deleteByIdFound() {
         Long id = 1L;
-        Producto producto = new Producto(id, "Smart", 9000);
+        Producto producto = new Producto(id, "Smart", new BigDecimal(9000));
         doReturn(Optional.of(producto)).when(productoRepository).findById(id);
         assertTrue(productoService.deleteById(id));
     }
@@ -82,7 +83,7 @@ class ProductoServiceImplTest {
     @Test
     void deleteByIdNotFound() {
         Long id = 1L;
-        Producto producto = new Producto(id, "Smart", 9000);
+        Producto producto = new Producto(id, "Smart", new BigDecimal(9000));
         doReturn(Optional.of(producto)).when(productoRepository).findById(id);
         assertFalse(productoService.deleteById(2L));
     }

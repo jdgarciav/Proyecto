@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class ProductoController {
     @GetMapping("/listar/{id}/precio")
     public ResponseEntity<?> ckeckPrice(@PathVariable Long id){
         try {
-            Double precio = productoService.checkPrice(id);
+            BigDecimal precio = productoService.checkPrice(id);
             return ResponseEntity.ok(precio);
         }catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();

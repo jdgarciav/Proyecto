@@ -41,8 +41,8 @@ class ProductoControllerTest {
     @Test
     void findAll() throws Exception {
         when(productoService.findAll()).thenReturn(List.of(
-                Optional.of(new Producto(1L,"Xbox series S", 6499.00)).get(),
-                Optional.of(new Producto(2L,"Play Station", 11499.00)).get()
+                Optional.of(new Producto(1L,"Xbox series S", new BigDecimal(6499.00))).get(),
+                Optional.of(new Producto(2L,"Play Station", new BigDecimal(11499.00))).get()
         ));
         mvc.perform(get(uri + "/listar").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].nombre").value("Xbox series S"));
@@ -52,7 +52,7 @@ class ProductoControllerTest {
     @Test
     void findById() throws Exception{
         String nombreEsperado="Xbox series S";
-        double precioEsperado=6499.00;
+        BigDecimal precioEsperado = new BigDecimal(6499.00);
         when(productoService.findById(1L)).thenReturn(Optional.of(new Producto(1L, nombreEsperado, precioEsperado)).get());
         mvc.perform(get(uri+"/listar/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -71,7 +71,7 @@ class ProductoControllerTest {
     @Test
     void ckeckPrice() throws Exception {
         String nombreEsperado="Xbox series S";
-        double precioEsperado=6499.00;
+        BigDecimal precioEsperado=new BigDecimal(6499.00);
         when(productoService.checkPrice(1L)).thenReturn(Optional.of(new Producto(1L, nombreEsperado, precioEsperado)).get().getPrecio());
         mvc.perform(get(uri+"/listar/1/precio").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ class ProductoControllerTest {
     void guardar() throws Exception {
         Long idEsperado = 1L;
         String nombreEsperado = "Xbox series S";
-        double precioEsperado = 6499.00;
+        BigDecimal precioEsperado=new BigDecimal(6499.00);
         Producto nuevoProducto=new Producto(null, nombreEsperado, precioEsperado);
         when(productoService.save(any(Producto.class))).then(invocation -> {
             Producto producto=invocation.getArgument(0);
@@ -103,7 +103,7 @@ class ProductoControllerTest {
                 .andExpectAll(
                         jsonPath("$.id",Matchers.is(idEsperado.intValue())),
                         jsonPath("$.nombre",Matchers.is(nombreEsperado)),
-                        jsonPath("$.precio",Matchers.is(precioEsperado)),
+                        jsonPath("$.precio",Matchers.is(precioEsperado.intValue())),
                         status().isCreated()
                 );
     }
@@ -118,7 +118,7 @@ class ProductoControllerTest {
 
     @Test
     void deleteNotFound() throws Exception {
-        when(productoService.findById(2L)).thenReturn(new Producto(1L,"Play Station", 11499.00));
+        when(productoService.findById(2L)).thenReturn(new Producto(1L,"Play Station", new BigDecimal(11499.00)));
         mvc.perform(delete(uri+"/borrar/3").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -128,9 +128,9 @@ class ProductoControllerTest {
     void updateFound() throws Exception {
         Long idEsperado = 1L;
         String nombreEsperado = "Play Station";
-        double precioEsperado = 11499.00;
+        BigDecimal precioEsperado=new BigDecimal(11499.00);
         Producto nuevoProducto = new Producto(null,nombreEsperado, precioEsperado);
-        when(productoService.findById(1L)).thenReturn(new Producto(1L,"Xbox series S", 6499.00));
+        when(productoService.findById(1L)).thenReturn(new Producto(1L,"Xbox series S", new BigDecimal(6499.00)));
         when(productoService.save(any())).then(
                 invocationOnMock->{
                     Producto producto = nuevoProducto;
@@ -143,14 +143,14 @@ class ProductoControllerTest {
                 .andExpectAll(
                         jsonPath("$.id",Matchers.is(idEsperado.intValue())),
                         jsonPath("$.nombre",Matchers.is(nombreEsperado)),
-                        jsonPath("$.precio",Matchers.is(precioEsperado)),
+                        jsonPath("$.precio",Matchers.is(precioEsperado.intValue())),
                         status().isCreated()
                 );
     }
 
     @Test
     void updateNotFound() throws Exception {
-        Producto nuevoProducto = new Producto(null,"Play Station", 11499.00);
+        Producto nuevoProducto = new Producto(null,"Play Station", new BigDecimal(11499.00));
         when(productoService.findById(3L)).thenThrow(NoSuchElementException.class);
         mvc.perform(put(uri+"/actualizar/3").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(nuevoProducto)))
